@@ -15,11 +15,11 @@ import java.util.Scanner;
 public class FraccionesServicio {
     Scanner leer = new Scanner(System.in);
     Fracciones f1 = new Fracciones();
-    int MCD;
     int a;
     int b;
     int TotalNum;
     int denC;
+    int simplifica;
     public void crearFracciones(Fracciones f1){
         System.out.println("Fraccion 1: ");
         f1.setN1(leer.nextInt());
@@ -30,6 +30,7 @@ public class FraccionesServicio {
         System.out.print("/");
         f1.setD2(leer.nextInt());
     }
+    //Calculo el mínimo común múltiplo
     public int mcm(int den1, int den2){
         int a = Math.max(den1, den2);
         int b = Math.min(den1, den2);
@@ -38,6 +39,7 @@ public class FraccionesServicio {
          
         return resultado;
     }
+    //Calculo el mínimo común denominador (simplificar)
     public int mcd(int den1,int den2){
         int a = Math.max(den1, den2);
         int b = Math.min(den1, den2);
@@ -57,39 +59,44 @@ public class FraccionesServicio {
         if(f1.getD1()==f1.getD2()){
             TotalNum = f1.getN1()+f1.getN2();
             denC=f1.getD1();
-            System.out.println("La suma es: "+TotalNum+"/"+denC);
         }else{
             denC=mcm(f1.getD1(),f1.getD2());            
             TotalNum= f1.getN1()*(denC/f1.getD1())+f1.getN2()*(denC/f1.getD2()); 
-            System.out.println("La suma es: "+TotalNum+"/"+denC);
         }
+        simplifica=mcd(TotalNum,denC);
+        TotalNum = TotalNum / simplifica;
+        denC = denC / simplifica ;
+        System.out.println("La suma de " +f1.getN1()+"/" +f1.getD1()+" + "+f1.getN2()+"/" +f1.getD2()+ " es: "+TotalNum+"/"+denC);
     }
     public void restar (Fracciones f1){
         if(f1.getD1()==f1.getD2()){
             TotalNum = f1.getN1()-f1.getN2();
-            denC=f1.getD1();
-            System.out.println("La resta es: "+TotalNum+"/"+denC);
-            
+            denC=f1.getD1();  
         }else{
             denC=mcm(f1.getD1(),f1.getD2());            
-            TotalNum= f1.getN1()*(denC/f1.getD1())-f1.getN2()*(denC/f1.getD2()); 
-            System.out.println("La resta es: "+TotalNum+"/"+denC);
+            TotalNum= f1.getN1()*(denC/f1.getD1())-f1.getN2()*(denC/f1.getD2());
         }
+        simplifica=mcd(TotalNum,denC);
+        TotalNum = TotalNum / simplifica;
+        denC = denC / simplifica ;
+        System.out.println("La resta de " +f1.getN1()+"/" +f1.getD1()+" - "+f1.getN2()+"/" +f1.getD2()+  " es: "+TotalNum+"/"+denC);
     }
     public void multiplicar(Fracciones f1) {
         TotalNum = f1.getN1() * f1.getN2();
         denC = f1.getD1() * f1.getD2();
-        TotalNum = TotalNum / mcd(TotalNum,denC);
-        denC = denC / mcd(TotalNum,denC);
-        System.out.println("La multiplicación es: "+TotalNum+"/"+denC);
+        simplifica=mcd(TotalNum,denC);
+        TotalNum = TotalNum / simplifica;
+        denC = denC / simplifica ;
+        System.out.println("La multiplicación de " +f1.getN1()+"/" +f1.getD1()+" * "+f1.getN2()+"/" +f1.getD2()+  " es: "+TotalNum+"/"+denC);
 
     }
     public void dividir(Fracciones f1){
         TotalNum=f1.getN1()*f1.getD2();
         denC=f1.getN2()*f1.getD1();
-        TotalNum = TotalNum / mcd(TotalNum,denC);
-        denC = denC / mcd(TotalNum,denC);
-        System.out.println("La división es: "+TotalNum+"/"+denC);
+        simplifica=mcd(TotalNum,denC);
+        TotalNum = TotalNum / simplifica;
+        denC = denC / simplifica ;
+        System.out.println("La división de (" +f1.getN1()+"/" +f1.getD1()+") / ("+f1.getN2()+"/" +f1.getD2()+ ") es: "+TotalNum+"/"+denC);
     }
     
     public void menu(){
